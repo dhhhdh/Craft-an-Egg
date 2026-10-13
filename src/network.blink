@@ -1,0 +1,60 @@
+option Casing = Pascal
+option ClientOutput = "client/Network.luau"
+option ServerOutput = "server/Network.luau"
+option TypesOutput = "shared/NetworkTypes.luau"
+option RemoteScope = "CRAFT_AN_EGG"
+option WriteValidations = true
+
+-- Only intent crosses C -> S. Prices, values, rolls and positions never do.
+enum Operation = {
+	Sync, Equip, Swing, Treadmill, PotOpen, PotClose, PotSet, Craft,
+	EggGrow, EggStop, EggTake, EggPickup, PlaceEgg, Hatch, SellPet, SwapPet, Buy
+}
+struct Request {
+	name: Operation,
+	id: string(..64)?,
+	slot: u8(1..6)?,
+	index: u8(1..255)?,
+	on: boolean?,
+	at: vector?
+}
+function Action {
+	yield: Coroutine,
+	data: Request,
+	return: unknown
+}
+event Intent {
+    from: Client,
+    type: Reliable,
+    call: SingleAsync,
+    data: Request
+}
+-- Inventory/economy changes are reliable, so a dropped packet cannot erase them.
+event StateSync {
+	from: Server,
+	type: Reliable,
+	call: SingleSync,
+	data: unknown
+}
+-- Biome mobs always exist. Every client knows their home spots (WorldLayout),
+-- so the server broadcasts only mobs AWAY from home: world XZ in 0.25 studs.
+struct MobPosition { id: u8, x: i16, z: i16 }
+event MobDelta {
+	from: Server,
+	type: Unreliable,
+	call: SingleSync,
+	data: struct { at: f64, mobs: MobPosition[..64] }
+}
+event EggEvent {
+	from: Server,
+	type: Reliable,
+	call: SingleSync,
+	data: unknown
+}
+event WorldEvent {
+	from: Server,
+	type: Reliable,
+	call: SingleSync,
+	data: unknown
+}
+

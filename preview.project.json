@@ -1,0 +1,23 @@
+{
+  "name": "CraftAnEgg-UI",
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": {
+      "$className": "ReplicatedStorage",
+      "Packages": { "$path": "Packages" },
+      "Shared": { "$path": "src/shared" },
+      "UI": { "$path": "src/client/UI" }
+    },
+    "StarterGui": {
+      "$className": "StarterGui",
+      "$properties": { "ScreenOrientation": "LandscapeSensor" }
+    },
+    "StarterPlayer": {
+      "$className": "StarterPlayer",
+      "StarterPlayerScripts": {
+        "$className": "StarterPlayerScripts",
+        "Preview": { "$path": "dev/Preview.client.luau" }
+      }
+    }
+  }
+}

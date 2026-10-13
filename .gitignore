@@ -1,0 +1,18 @@
+# Generated artifacts
+/CraftAnEgg.rbxl
+/CraftAnEgg.rbxlx
+/CraftAnEgg-UI.rbxl
+/CraftAnEgg-UI.rbxlx
+/sourcemap.json
+
+# Installed Wally packages (recreated with `wally install`)
+/Packages/
+/ServerPackages/
+/DevPackages/
+
+# Tool caches
+/.lune/
+
+
+# Studio place lock files
+/*.rbxl.lock
